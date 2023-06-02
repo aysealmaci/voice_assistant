@@ -12,7 +12,6 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import requests
 
-#sr ye rec dedim
 
 r=rec.Recognizer()
 
