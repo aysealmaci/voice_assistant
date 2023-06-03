@@ -18,11 +18,17 @@ import wikipedia
 import webbrowser
 import pywhatkit
 import pyowm
+import pyjokes
+
+
 
 #+905524944430
 r=rec.Recognizer() #recognizer
 
 class VoiceAssistant:
+
+
+
     def assistant_speech(self, mytext):
 
         text_speech=gTTS(text=mytext,lang="tr") #language
@@ -156,6 +162,12 @@ class VoiceAssistant:
             self.assistant_speech("Hangi şehirde olduğunuzu söyleyin.")
             city = self.mic()
             self.get_weather(city)
+        elif coming_voice == "şaka":
+            self.tell_joke()
+
+    def tell_joke(self):
+        joke = pyjokes.get_joke(language='tr')
+        self.assistant_speech(joke)
 
     def get_weather(self, city):
         API_KEY = "d986bdff5dfbc4e6db0d088a72ef2594"
@@ -178,7 +190,10 @@ class VoiceAssistant:
             #if(the_voice!=""):
     #    self.answers_to_speech(the_voice)
 
+
 assistant=VoiceAssistant()
+
+
 
 while True: #mic always listen to user
     coming_voice=assistant.mic()
