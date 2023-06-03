@@ -1,2 +1,1 @@
-Speech Processing Project\n
-Voice Assistant in Turkish with Python
+Speech Processing Project - Voice Assistant in Turkish with Python
