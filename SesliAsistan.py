@@ -19,7 +19,6 @@ import webbrowser
 import pywhatkit
 
 
-#+905524944430
 r=rec.Recognizer() #recognizer
 
 class VoiceAssistant:
@@ -158,11 +157,8 @@ class VoiceAssistant:
 
             #if(the_voice!=""):
     #    self.answers_to_speech(the_voice)
-
-
+    
 assistant=VoiceAssistant()
-
-
 
 while True: #mic always listen to user
     coming_voice=assistant.mic()
