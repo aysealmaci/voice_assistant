@@ -17,12 +17,12 @@ import ecapture as ec
 import wikipedia
 import webbrowser
 import pywhatkit
+import pyowm
 
-
+#+905524944430
 r=rec.Recognizer() #recognizer
 
 class VoiceAssistant:
-
     def assistant_speech(self, mytext):
 
         text_speech=gTTS(text=mytext,lang="tr") #language
@@ -80,6 +80,9 @@ class VoiceAssistant:
             self.assistant_speech("E-posta başarıyla gönderildi.")
         except Exception as e:
             self.assistant_speech("E-posta gönderirken bir hata oluştu.")
+
+
+
 
     def send_wp_message(self):
         self.assistant_speech("Alıcı ismini söyleyin.")
@@ -149,6 +152,23 @@ class VoiceAssistant:
             browser.get(url)
             time.sleep(30)
             browser.quit()
+        elif coming_voice == "hava":
+            self.assistant_speech("Hangi şehirde olduğunuzu söyleyin.")
+            city = self.mic()
+            self.get_weather(city)
+
+    def get_weather(self, city):
+        API_KEY = "d986bdff5dfbc4e6db0d088a72ef2594"
+        owm = pyowm.OWM(API_KEY)
+
+        observation = owm.weather_manager().weather_at_place(city)
+        weather = observation.weather
+        temperature = weather.temperature('celsius')["temp"]
+        status = weather.status
+        detailed_status = weather.detailed_status
+
+        report = f"{city} şehrinin hava sıcaklığı: {int(temperature)} derece ."
+        self.assistant_speech(report)
 
     #def initialize_func(self,coming_voice):
             #  if(coming_voice in "Hey Siri"):
@@ -157,7 +177,7 @@ class VoiceAssistant:
 
             #if(the_voice!=""):
     #    self.answers_to_speech(the_voice)
-    
+
 assistant=VoiceAssistant()
 
 while True: #mic always listen to user
