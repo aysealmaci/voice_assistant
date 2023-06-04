@@ -122,9 +122,9 @@ class VoiceAssistant:
 
         query=self.mic()
 
-        #API_KEY = '....' (my API KEY from wolframalpha)
+        #API_KEY = '7YA6YU-6J6TA5UKVJ'
 
-        client=wolframalpha.Client('API KEY')
+        client=wolframalpha.Client('7YA6YU-6J6TA5UKVJ')
 
         res = client.query(query)
         result = next(res.results).text
@@ -144,10 +144,10 @@ class VoiceAssistant:
         self.assistant_speech("Alıcı ismini söyleyin.")
         n= self.mic()
 
-        if(n=="name1"):
-            recipient="+90xxxxxxxxxx"
-        elif(n=="name2"):
-            recipient="+90xxxxxxxxxx"
+        if(n=="arezo"):
+            recipient="+905524944430"
+        elif(n=="annem"):
+            recipient="+905392211711"
 
 
         self.assistant_speech("Mesajı söyleyin.")
@@ -159,11 +159,11 @@ class VoiceAssistant:
         pywhatkit.sendwhatmsg(recipient, message, datetime.datetime.now().hour, datetime.datetime.now().minute + 1)
         self.assistant_speech("WhatsApp mesajı gönderilmeye hazır.")
 
-        #THIS CODE WORKS WITH USER INPUT
-        # def send_wp_message(self):
-        #    recipient = input("+90555xxxxxxx formatındaki alıcı telefon numarasını girin : ")
-        #    message = input("Mesajı girin: ")
-        #    pywhatkit.sendwhatmsg(recipient, message, datetime.datetime.now().hour, datetime.datetime.now().minute + 1)
+        #If we prefer get the required information from the user via input, this code can be used.
+        #def send_wp_message(self):
+        #   recipient = input("+90555xxxxxxx formatındaki alıcı telefon numarasını girin : ")
+        #   message = input("Mesajı girin: ")
+        #   pywhatkit.sendwhatmsg(recipient, message, datetime.datetime.now().hour, datetime.datetime.now().minute + 1)
 
 
     def play_music(self):
