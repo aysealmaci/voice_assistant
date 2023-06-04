@@ -51,6 +51,10 @@ label = tk.Label(root, text="Made by Ayşe Almacı & Bibi Arezo Massum", font=("
 label.config(fg="orange",bg="light yellow")
 label.pack()
 
+label = tk.Label(root, text="Kullanmaya başlamak için ekranı kapatın", font=("Arial", 15))
+label.config(fg="orange",bg="black")
+label.pack()
+
 root.mainloop()
 #END OF GUI PART
 
@@ -239,7 +243,7 @@ class VoiceAssistant:
         report = f"{city} şehrinin hava sıcaklığı: {int(temperature)} derece ."
         self.assistant_speech(report)
 
-    #IF WE WANT TO INITIALIZE WITH SAYING "Hey Siri" CODE BELOW CAN BE USED.
+    #IF WE WANT TO INITIALIZE WITH SAYING "Hey Siri", CODE BELOW CAN BE USED.
     #def initialize_func(self,coming_voice):
             # if(coming_voice in "Hey Siri"):
             # self.assistant_speech("Evet buyrun dinliyorum")
