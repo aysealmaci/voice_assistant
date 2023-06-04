@@ -20,8 +20,39 @@ import pywhatkit
 import pyowm
 import pyjokes
 import wolframalpha
+import tkinter as tk
+import subprocess
+from subprocess import run
+
 
 r=rec.Recognizer() #recognizer
+
+#GUI PART
+root = tk.Tk()
+
+root.title("Sesli Asistan")
+
+root.geometry("800x400") #size of gui screen
+root.config(bg="light yellow")
+
+label = tk.Label(root, text="Merhaba", font=("Arial", 45))
+label.config(fg="black",bg="light yellow")
+label.pack()
+
+label = tk.Label(root, text="Sesli Asistana", font=("Arial", 45))
+label.config(fg="black",bg="light yellow")
+label.pack()
+
+label = tk.Label(root, text="Hoşgeldiniz", font=("Arial", 45))
+label.config(fg="black",bg="light yellow")
+label.pack()
+
+label = tk.Label(root, text="Made by Ayşe Almacı & Bibi Arezo Massum", font=("Arial", 15))
+label.config(fg="orange",bg="light yellow")
+label.pack()
+
+root.mainloop()
+#END OF GUI PART
 
 class VoiceAssistant:
 
@@ -32,6 +63,7 @@ class VoiceAssistant:
 
         text_speech.save(speech_file) #record the voice
         playsound(speech_file)
+
         os.remove(speech_file) #delete the file after user listen
 
 
@@ -71,7 +103,6 @@ class VoiceAssistant:
         self.assistant_speech("İçeriği söyleyin.")
         content = self.mic()
 
-        # E-posta gönderme işlemi
         try:
             server = smtplib.SMTP("smtp.gmail.com", 587)
             server.starttls()
@@ -85,13 +116,29 @@ class VoiceAssistant:
 
     def search_wolframalpha(self):
         self.assistant_speech("Wolfram Alpha'da ne hesaplamak istersiniz?")
-        query = str(input('Q: '))
-       
-        #API KEY :'7YA6YU-6J6TA5UKVJ'
+
+
+        #query = str(input('Q: '))  if we prefer get the calculation as a text from the user, this code is for this purpose
+
+        query=self.mic()
+
+        #API_KEY = '7YA6YU-6J6TA5UKVJ'
+
         client=wolframalpha.Client('7YA6YU-6J6TA5UKVJ')
+
         res = client.query(query)
         result = next(res.results).text
         self.assistant_speech(result)
+
+    def note(self):
+        self.assistant_speech("Neyi not almak istersiniz?")
+        text=self.mic()
+        date = datetime.datetime.now()
+        file_name = str(date).replace(":", "-") + "-note.txt"
+        with open(file_name, "w") as f:
+            f.write(text)
+
+        subprocess.Popen(["notepad.exe", file_name])
 
     def send_wp_message(self):
         self.assistant_speech("Alıcı ismini söyleyin.")
@@ -99,6 +146,9 @@ class VoiceAssistant:
 
         if(n=="arezo"):
             recipient="+905524944430"
+        elif(n=="annem"):
+            recipient="+905392211711"
+
 
         self.assistant_speech("Mesajı söyleyin.")
         message = self.mic()
@@ -107,7 +157,7 @@ class VoiceAssistant:
         minute = datetime.datetime.now().minute + 1
 
         pywhatkit.sendwhatmsg(recipient, message, datetime.datetime.now().hour, datetime.datetime.now().minute + 1)
-        self.assistant_speech("WhatsApp mesajı başarıyla gönderildi.")
+        self.assistant_speech("WhatsApp mesajı gönderilmeye hazır.")
 
         #AŞAĞIDAKİ KOD YAZI İLE ÇALIŞABİLİYOR
         #  def send_wp_message(self):
@@ -115,6 +165,7 @@ class VoiceAssistant:
         #recipient = input("+90555xxxxxxx formatındaki alıcı telefon numarasını girin : ")
         #message = input("Mesajı girin: ")
         #pywhatkit.sendwhatmsg(recipient, message, datetime.datetime.now().hour, datetime.datetime.now().minute + 1)
+
 
     def play_music(self):
         self.assistant_speech("Tabiki Hangi şarkıyı ya da sanatçıyı açmak istersiniz?")
@@ -131,21 +182,25 @@ class VoiceAssistant:
         elif(coming_voice in "Merhaba"):
            ec.capture(0,"frame", "saved_picture.png")
 
-        elif coming_voice in "nasılsın":
+        elif coming_voice in "hesapla":
             self.search_wolframalpha()
 
-        #elif(coming_voice in "nasılsın"):
-         #   self.assistant_speech("iyidir sizden naber")
+
+        elif(coming_voice in "nasılsın"):
+            self.assistant_speech("iyidir sizden naber")
         elif(coming_voice in "saat"):
             now = datetime.now()
             self.assistant_speech("Bugün {} ".format(now))
         elif coming_voice == "müzik ara":
             self.play_music()
 
+        elif coming_voice == "not al":
+            self.note()
+
         elif coming_voice == "bilgi":
             self.search_wikipedia()
 
-        elif coming_voice=="mesaj":
+        elif coming_voice=="mesaj yaz":
             self.send_wp_message()
 
         elif (coming_voice=="mail at"):
@@ -161,15 +216,15 @@ class VoiceAssistant:
             browser.get(url)
             time.sleep(30)
             browser.quit()
-        elif coming_voice == "hava":
+        elif coming_voice == "hava durumu":
             self.assistant_speech("Hangi şehirde olduğunuzu söyleyin.")
             city = self.mic()
             self.get_weather(city)
-        elif coming_voice == "şaka":
+        elif coming_voice == "İngilizce şaka":  #pyjoke don't support Turkish language. So this command is just a joke in English language
             self.tell_joke()
 
     def tell_joke(self):
-        joke = pyjokes.get_joke(language='tr')
+        joke = pyjokes.get_joke()
         self.assistant_speech(joke)
 
     def get_weather(self, city):
@@ -185,21 +240,20 @@ class VoiceAssistant:
         report = f"{city} şehrinin hava sıcaklığı: {int(temperature)} derece ."
         self.assistant_speech(report)
 
+    #IF WE WANT TO INITIALIZE WITH SAYING "Hey Siri" CODE BELOW CAN BE USED.
     #def initialize_func(self,coming_voice):
-            #  if(coming_voice in "Hey Siri"):
+            # if(coming_voice in "Hey Siri"):
             # self.assistant_speech("Evet buyrun dinliyorum")
             #the_voice=self.mic() #assign the voice come from mic to the_voice
 
             #if(the_voice!=""):
     #    self.answers_to_speech(the_voice)
 
-
 assistant=VoiceAssistant()
 
-while True: #mic always listen to user
-   # coming_voice=assistant.mic()
-    #if(coming_voice!=""): #if coming voice is not empty
-        #print(coming_voice) #print what user said
-        #assistant.answers_to_speech(coming_voice)
-        assistant.search_wolframalpha()
-        #assistant.initialize_func(coming_voice)
+while True:  # mic always listen to user
+    coming_voice = assistant.mic()
+    if (coming_voice != ""):  # if coming voice is not empty
+        print(coming_voice)  # print what user said
+        assistant.answers_to_speech(coming_voice)
+        # assistant.initialize_func(coming_voice) #if we want to say "hey siri" to initialize the voice assistant.
