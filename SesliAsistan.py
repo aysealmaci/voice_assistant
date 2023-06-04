@@ -188,9 +188,9 @@ class VoiceAssistant:
 
         elif(coming_voice in "nasılsın"):
             self.assistant_speech("iyidir sizden naber")
-        elif(coming_voice in "saat"):
-            now = datetime.now()
-            self.assistant_speech("Bugün {} ".format(now))
+        elif(coming_voice in "saat kaç"):
+            current_time = datetime.datetime.now().strftime("%H:%M:%S")
+            self.assistant_speech("Şu anda saat {}".format(current_time))
         elif coming_voice == "müzik ara":
             self.play_music()
 
