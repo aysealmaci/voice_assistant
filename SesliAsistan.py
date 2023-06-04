@@ -19,15 +19,11 @@ import webbrowser
 import pywhatkit
 import pyowm
 import pyjokes
+import wolframalpha
 
-
-
-#+905524944430
 r=rec.Recognizer() #recognizer
 
 class VoiceAssistant:
-
-
 
     def assistant_speech(self, mytext):
 
@@ -87,8 +83,15 @@ class VoiceAssistant:
         except Exception as e:
             self.assistant_speech("E-posta gönderirken bir hata oluştu.")
 
-
-
+    def search_wolframalpha(self):
+        self.assistant_speech("Wolfram Alpha'da ne hesaplamak istersiniz?")
+        query = str(input('Q: '))
+       
+        #API KEY :'7YA6YU-6J6TA5UKVJ'
+        client=wolframalpha.Client('7YA6YU-6J6TA5UKVJ')
+        res = client.query(query)
+        result = next(res.results).text
+        self.assistant_speech(result)
 
     def send_wp_message(self):
         self.assistant_speech("Alıcı ismini söyleyin.")
@@ -96,7 +99,6 @@ class VoiceAssistant:
 
         if(n=="arezo"):
             recipient="+905524944430"
-
 
         self.assistant_speech("Mesajı söyleyin.")
         message = self.mic()
@@ -114,7 +116,6 @@ class VoiceAssistant:
         #message = input("Mesajı girin: ")
         #pywhatkit.sendwhatmsg(recipient, message, datetime.datetime.now().hour, datetime.datetime.now().minute + 1)
 
-
     def play_music(self):
         self.assistant_speech("Tabiki Hangi şarkıyı ya da sanatçıyı açmak istersiniz?")
 
@@ -130,9 +131,11 @@ class VoiceAssistant:
         elif(coming_voice in "Merhaba"):
            ec.capture(0,"frame", "saved_picture.png")
 
+        elif coming_voice in "nasılsın":
+            self.search_wolframalpha()
 
-        elif(coming_voice in "nasılsın"):
-            self.assistant_speech("iyidir sizden naber")
+        #elif(coming_voice in "nasılsın"):
+         #   self.assistant_speech("iyidir sizden naber")
         elif(coming_voice in "saat"):
             now = datetime.now()
             self.assistant_speech("Bugün {} ".format(now))
@@ -193,11 +196,10 @@ class VoiceAssistant:
 
 assistant=VoiceAssistant()
 
-
-
 while True: #mic always listen to user
-    coming_voice=assistant.mic()
-    if(coming_voice!=""): #if coming voice is not empty
-        print(coming_voice) #print what user said
-        assistant.answers_to_speech(coming_voice)
+   # coming_voice=assistant.mic()
+    #if(coming_voice!=""): #if coming voice is not empty
+        #print(coming_voice) #print what user said
+        #assistant.answers_to_speech(coming_voice)
+        assistant.search_wolframalpha()
         #assistant.initialize_func(coming_voice)
