@@ -126,9 +126,9 @@ class VoiceAssistant:
 
         query=self.mic()
 
-        #API_KEY = '7YA6YU-6J6TA5UKVJ'
+        #API_KEY = ''
 
-        client=wolframalpha.Client('7YA6YU-6J6TA5UKVJ')
+        client=wolframalpha.Client('')
 
         res = client.query(query)
         result = next(res.results).text
@@ -148,10 +148,10 @@ class VoiceAssistant:
         self.assistant_speech("Alıcı ismini söyleyin.")
         n= self.mic()
 
-        if(n=="arezo"):
-            recipient="+905524944430"
-        elif(n=="annem"):
-            recipient="+905392211711"
+        if(n=="name1"):
+            recipient="+90xxxxxxxxxx"
+        elif(n=="name2"):
+            recipient="+90xxxxxxxxxx"
 
 
         self.assistant_speech("Mesajı söyleyin.")
