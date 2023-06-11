@@ -126,9 +126,9 @@ class VoiceAssistant:
 
         query=self.mic()
 
-        #API_KEY = ''
+        #API_KEY = '7YA6YU-6J6TA5UKVJ'
 
-        client=wolframalpha.Client('')
+        client=wolframalpha.Client('7YA6YU-6J6TA5UKVJ')
 
         res = client.query(query)
         result = next(res.results).text
@@ -148,10 +148,10 @@ class VoiceAssistant:
         self.assistant_speech("Alıcı ismini söyleyin.")
         n= self.mic()
 
-        if(n=="name1"):
-            recipient="+90xxxxxxxxxx"
-        elif(n=="name2"):
-            recipient="+90xxxxxxxxxx"
+        if(n=="arezo"):
+            recipient="+905524944430"
+        elif(n=="annem"):
+            recipient="+905392211711"
 
 
         self.assistant_speech("Mesajı söyleyin.")
@@ -180,36 +180,35 @@ class VoiceAssistant:
         browser.get(url)
 
     def answers_to_speech(self,coming_voice):
-        if(coming_voice in "Merhaba"):
+        if("Merhaba" in coming_voice):
            self.assistant_speech("Size de merhaba")
         elif(coming_voice in "Merhaba"):
            ec.capture(0,"frame", "saved_picture.png")
 
-        elif coming_voice in "hesapla":
+        elif ("hesapla" in coming_voice):
             self.search_wolframalpha()
 
-
-        elif(coming_voice in "nasılsın"):
+        elif("nasılsın" in coming_voice):
             self.assistant_speech("iyidir sizden naber")
         elif(coming_voice in "saat kaç"):
             current_time = datetime.datetime.now().strftime("%H:%M:%S")
             self.assistant_speech("Şu anda saat {}".format(current_time))
-        elif coming_voice == "müzik ara":
+        elif ("müzik ara" in coming_voice):
             self.play_music()
 
-        elif coming_voice == "not al":
+        elif ("not al" in coming_voice):
             self.note()
 
-        elif coming_voice == "bilgi":
+        elif ("bilgi" in coming_voice):
             self.search_wikipedia()
 
-        elif coming_voice=="mesaj yaz":
+        elif ("mesaj yaz" in coming_voice):
             self.send_wp_message()
 
-        elif (coming_voice=="mail at"):
+        elif ("mail at" in coming_voice):
             self.send_email()
 
-        elif(coming_voice in "Google araması yap"):
+        elif("Google araması yap" in coming_voice):
             self.assistant_speech("Tabiki neyi aramamı istersiniz")
             user_answer = self.mic()
 
@@ -219,11 +218,11 @@ class VoiceAssistant:
             browser.get(url)
             time.sleep(30)
             browser.quit()
-        elif coming_voice == "hava durumu":
+        elif ("hava durumu" in coming_voice):
             self.assistant_speech("Hangi şehirde olduğunuzu söyleyin.")
             city = self.mic()
             self.get_weather(city)
-        elif coming_voice == "İngilizce şaka":  #pyjoke don't support Turkish language. So this command is just a joke in English language
+        elif ("İngilizce şaka" in coming_voice):  #pyjoke don't support Turkish language. So this command is just a joke in English language
             self.tell_joke()
 
     def tell_joke(self):
